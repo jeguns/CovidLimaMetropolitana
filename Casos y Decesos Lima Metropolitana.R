@@ -16,11 +16,14 @@ library(tidyquant)
 # Carga de datos #
 # -------------- #
 
-download.file("https://cloud.minsa.gob.pe/s/Y8w3wHsEdYQSZRp/download",destfile="positivos_covid.csv")
-download.file("https://cloud.minsa.gob.pe/s/Md37cjXmjT9qYSa/download",destfile="fallecidos_covid.csv")
+npos = paste0("positivos_covid_",as.character(today()),".csv")
+nfal = paste0("fallecidos_covid_",as.character(today()),".csv")
 
-datos.abiertos.p = read.csv("positivos_covid.csv")
-datos.abiertos.f = read.csv("fallecidos_covid.csv")
+download.file("https://cloud.minsa.gob.pe/s/Y8w3wHsEdYQSZRp/download",destfile=npos)
+download.file("https://cloud.minsa.gob.pe/s/Md37cjXmjT9qYSa/download",destfile=nfal)
+
+datos.abiertos.p = read.csv(npos)
+datos.abiertos.f = read.csv(nfal)
 demografia       = read.csv("Demografia.csv", sep = ";")
 
 # ----------------- #
