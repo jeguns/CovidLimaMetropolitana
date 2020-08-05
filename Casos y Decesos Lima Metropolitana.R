@@ -137,7 +137,7 @@ for(i in 1:length(distritos)){
   
   datos1.p = cbind(datos1.p, nacum = cumsum(datos1.p$n))
   
-  tit1 = paste0("Casos diarios - ",distritos[i]," ",max(fechas.f))
+  tit1 = paste0("Casos diarios - ",distritos[i]," ",max(fechas.f)-1)
   
   gra1 = datos1.p %>%    
     ggplot(aes(x = FECHA_RESULTADO, y = n)) +
@@ -158,7 +158,7 @@ for(i in 1:length(distritos)){
     tema1
   
   
-  tit2 = paste0("Casos acumulados - ",distritos[i]," ",max(fechas.p))
+  tit2 = paste0("Casos acumulados - ",distritos[i]," ",max(fechas.p)-1)
   
   gra2 = datos1.p %>%    ggplot(aes(x = FECHA_RESULTADO, y = nacum)) +
     geom_bar(stat = "identity", colour = "royalblue1", fill = "royalblue3") +
