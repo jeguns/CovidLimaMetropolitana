@@ -90,7 +90,22 @@ nombre_archivo = paste0("Reporte_LimaMetropolitana_",
 
 write.csv(reporte,nombre_archivo)
 
-reporte %>% arrange(desc(-NCASOS))
+reporte %>% arrange(desc(NCASOS)) %>% select(DISTRITO,NCASOS)
+reporte %>% arrange(NCASOS) %>% select(DISTRITO,NCASOS)
+reporte %>% arrange(desc(NCASOS10MIL)) %>% select(DISTRITO,NCASOS10MIL)
+reporte %>% arrange(NCASOS10MIL) %>% select(DISTRITO,NCASOS10MIL)
+reporte %>% arrange(desc(NCASOSKM2)) %>% select(DISTRITO,NCASOSKM2)
+reporte %>% arrange(NCASOSKM2) %>% select(DISTRITO,NCASOSKM2)
+
+reporte %>% arrange(desc(NFALLECIDOS)) %>% select(DISTRITO,NFALLECIDOS)
+reporte %>% arrange(NFALLECIDOS) %>% select(DISTRITO,NFALLECIDOS)
+reporte %>% arrange(desc(NFALL10MIL)) %>% select(DISTRITO,NFALL10MIL)
+reporte %>% arrange(NFALL10MIL) %>% select(DISTRITO,NFALL10MIL)
+reporte %>% arrange(desc(NFALLKM2)) %>% select(DISTRITO,NFALLKM2)
+reporte %>% arrange(NFALLKM2) %>% select(DISTRITO,NFALLKM2)
+reporte %>% arrange(desc(LETALIDAD)) %>% select(DISTRITO,LETALIDAD)
+reporte %>% arrange(LETALIDAD) %>% select(DISTRITO,LETALIDAD)
+
 
 # ---------------------------------------------------- #
 # GRÁFICAS DE CASOS DIARIOS Y ACUMULADOS POR DISTRITOS #
