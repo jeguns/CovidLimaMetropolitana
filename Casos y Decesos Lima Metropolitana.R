@@ -22,8 +22,8 @@ nfal = paste0("fallecidos_covid_",as.character(today()),".csv")
 download.file("https://cloud.minsa.gob.pe/s/Y8w3wHsEdYQSZRp/download",destfile=npos)
 download.file("https://cloud.minsa.gob.pe/s/Md37cjXmjT9qYSa/download",destfile=nfal)
 
-datos.abiertos.p = read.csv(npos)
-datos.abiertos.f = read.csv(nfal)
+datos.abiertos.p = read.csv(npos,sep=";")
+datos.abiertos.f = read.csv(nfal,sep=";")
 demografia       = read.csv("Demografia.csv", sep = ";")
 
 # ----------------- #
@@ -148,11 +148,12 @@ for(i in 1:length(distritos)){
     group_by(FECHA_RESULTADO) %>% 
     dplyr::count() %>% 
     right_join(data.frame(fechas.p),by=c("FECHA_RESULTADO"="fechas.p")) %>% 
-    dplyr::mutate(n=replace_na(n,0))
+    dplyr::mutate(n=replace_na(n,0)) %>% 
+    arrange(FECHA_RESULTADO)
   
   datos1.p = cbind(datos1.p, nacum = cumsum(datos1.p$n))
   
-  tit1 = paste0("Casos diarios - ",distritos[i]," ",max(fechas.f)-1)
+  tit1 = paste0("Casos diarios - ",distritos[i]," ",max(fechas.p)-1)
   
   gra1 = datos1.p %>%    
     ggplot(aes(x = FECHA_RESULTADO, y = n)) +
@@ -166,7 +167,7 @@ for(i in 1:length(distritos)){
          caption = "Fuente: MINSA, Elaboración: Jesús Gamboa @jesuseduardog")+
     scale_x_date(limits = c(as.Date('2020-03-06'), max(datos.abiertos.p$FECHA_RESULTADO+1)),
                  expand = c(0,0),
-                 breaks = function(x) seq.Date(from = as.Date('2020-03-06'), to = max(x), by = "7 days"))+ 
+                 breaks = function(x) seq.Date(from = as.Date('2020-03-06'), to = max(x), by = "30 days"))+ 
     scale_color_manual(name = '', 
                        guide = 'legend',
                        values = c('Media móvil 7 días' = 'darkblue'))+
@@ -186,7 +187,7 @@ for(i in 1:length(distritos)){
          caption = "Fuente: MINSA, Elaboración: Jesús Gamboa @jesuseduardog")+
     scale_x_date(limits = c( as.Date('2020-03-06'), max(datos.abiertos.p$FECHA_RESULTADO+1)),
                  expand = c(0,0),
-                 breaks = function(x) seq.Date(from = as.Date('2020-03-06'), to = max(x), by = "7 days"))+ 
+                 breaks = function(x) seq.Date(from = as.Date('2020-03-06'), to = max(x), by = "30 days"))+ 
     scale_color_manual(name = '', 
                        guide = 'legend',
                        values = c('Media móvil 7 días' = 'darkblue')) +
@@ -201,11 +202,12 @@ for(i in 1:length(distritos)){
     group_by(FECHA_FALLECIMIENTO) %>% 
     dplyr::count() %>% 
     right_join(data.frame(fechas.f),by=c("FECHA_FALLECIMIENTO"="fechas.f")) %>% 
-    dplyr::mutate(n=replace_na(n,0))
+    dplyr::mutate(n=replace_na(n,0)) %>% 
+    arrange(FECHA_FALLECIMIENTO)
   
   datos1.f = cbind(datos1.f, nacum = cumsum(datos1.f$n))
   
-  tit3 = paste0("Fallecimientos diarios - ",distritos[i]," ",max(fechas.f))
+  tit3 = paste0("Fallecimientos diarios - ",distritos[i]," ",max(fechas.f)-1)
   
   gra3 = datos1.f %>%    
     ggplot(aes(x = FECHA_FALLECIMIENTO, y = n)) +
@@ -218,13 +220,13 @@ for(i in 1:length(distritos)){
          caption = "Fuente: MINSA, Elaboración: Jesús Gamboa @jesuseduardog")+
     scale_x_date(limits = c( as.Date('2020-03-06'), max(datos.abiertos.f$FECHA_FALLECIMIENTO+1)),
                  expand = c(0,0),
-                 breaks = function(x) seq.Date(from = as.Date('2020-03-06'), to = max(x), by = "7 days"))+ 
+                 breaks = function(x) seq.Date(from = as.Date('2020-03-06'), to = max(x), by = "30 days"))+ 
     scale_color_manual(name = '', 
                        guide = 'legend',
                        values = c('Media móvil 7 días' = 'coral4')) + 
     tema1
   
-  tit4 = paste0("Fallecimientos acumulados - ",distritos[i]," ",max(fechas.f))
+  tit4 = paste0("Fallecimientos acumulados - ",distritos[i]," ",max(fechas.f)-1)
   
   gra4 = datos1.f %>%  
     ggplot(aes(x = FECHA_FALLECIMIENTO, y = nacum)) +
@@ -237,7 +239,7 @@ for(i in 1:length(distritos)){
          caption = "Fuente: MINSA, Elaboración: Jesús Gamboa @jesuseduardog")+
     scale_x_date(limits = c( as.Date('2020-03-06'), max(datos.abiertos.f$FECHA_FALLECIMIENTO+1)),
                  expand = c(0,0),
-                 breaks = function(x) seq.Date(from = as.Date('2020-03-06'), to = max(x), by = "7 days"))+ 
+                 breaks = function(x) seq.Date(from = as.Date('2020-03-06'), to = max(x), by = "30 days"))+ 
     scale_color_manual(name = '', 
                        guide = 'legend',
                        values = c('Media móvil 7 días' = 'coral4')) +
